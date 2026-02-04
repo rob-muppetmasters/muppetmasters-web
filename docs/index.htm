@@ -1,6 +1,179 @@
-<html>
-    <body>
-        <h1>Under Construction</h1>
-        <p>This page is currently under construction. Please check back later for updates!</p>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuppetMasters | Retro. Compute. Rewind.</title>
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff00ff;
+            --bg-black: #0b0b0e;
+            --terminal-green: #33ff33;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Scanline Effect Overlay */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            pointer-events: none;
+            background-size: 100% 4px, 3px 100%;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 3px solid var(--neon-pink);
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .logo-text {
+            font-size: 3rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: var(--neon-blue);
+            text-shadow: 3px 3px var(--neon-pink);
+            margin: 0;
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1000px;
+            width: 90%;
+            margin-top: 40px;
+            gap: 40px;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 10px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--neon-blue);
+            color: black;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* Content Area */
+        main {
+            flex: 3;
+        }
+
+        .content-box {
+            border: 2px solid var(--neon-pink);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: inset 0 0 10px var(--neon-pink);
+        }
+
+        h2 {
+            color: var(--terminal-green);
+            font-size: 1.2rem;
+            margin-top: 0;
+            text-transform: uppercase;
+        }
+
+        .post-link {
+            display: block;
+            color: #ddd;
+            margin: 10px 0;
+            text-decoration: none;
+        }
+
+        .post-link:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-stats {
+            margin-top: 20px;
+            border: 1px solid #444;
+            padding: 10px;
+            font-size: 0.7rem;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .c-logo {
+            color: var(--neon-pink);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- <div class="logo-text">C= MUPPETMASTERS</div> -->
+    <div class="logo-text">MUPPETMASTERS</div>
+    <div class="tagline">RETRO. REWIND. RE-PLAY.</div>
+</header>
+
+<div class="main-container">
+    <nav>
+        <a href="#" class="active">HOME</a>
+        <a href="#">NEWS</a>
+        <a href="#">STORIES</a>
+        <a href="#">REVIEWS</a>
+        <a href="#">COMMUNITY</a>
+        <a href="#">ABOUT US</a>
+    </nav>
+
+    <main>
+        <div class="content-box">
+            <h2>LATEST NEWS</h2>
+            <a href="#" class="post-link">28 Jan 2026: I finally update the website from the holding page!</a>
+            <a href="#" class="post-link">1 Jan 2026: New Year - Woo hoo!</a>
+        </div>
+
+        <div class="content-box">
+            <h2>GREAT GAMES</h2>
+            <a href="https://c64online.com/c64-games/manic-miner/#jumptothegame" class="post-link" target="_blank">Manic Miner</a>
+            <a href="https://c64online.com/c64-games/uridium/#jumptothegame" class="post-link" target="_blank">Uridium</a>
+        </div>
+
+        <div class="footer-stats">
+            <div><span class="c-logo">C=</span> VISITORS: 64789</div>
+            <div>LAST UPDATE: 2026.01.27</div>
+        </div>
+    </main>
+</div>
+
+</body>
 </html>
