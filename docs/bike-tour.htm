@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuppetMasters | BIKE TOUR</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .tour-box {
+            border: 2px solid var(--neon-pink);
+            padding: 20px;
+            box-shadow: inset 0 0 10px var(--neon-pink);
+        }
+
+        .tour-box h2 {
+            margin-bottom: 8px;
+        }
+
+        .tour-intro {
+            color: #ddd;
+            line-height: 1.5;
+            margin: 0 0 18px;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .countdown-unit {
+            border: 1px solid var(--neon-blue);
+            padding: 10px 6px;
+            background: #10141d;
+        }
+
+        .countdown-value {
+            display: block;
+            color: var(--terminal-green);
+            font-size: 1.7rem;
+            font-weight: bold;
+        }
+
+        .countdown-label {
+            color: var(--neon-blue);
+            font-size: 0.65rem;
+        }
+
+        .course-frame {
+            border: 2px solid var(--neon-blue);
+            background: #05070b;
+            box-shadow: 0 0 12px rgba(0, 242, 255, 0.35);
+            line-height: 0;
+        }
+
+        #course {
+            display: block;
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+        }
+
+        .rider-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px 10px;
+            margin-top: 12px;
+            color: #ddd;
+            font-size: 0.7rem;
+        }
+
+        .rider-name::before {
+            content: "";
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            margin-right: 6px;
+            background: var(--rider-color);
+        }
+
+        .tour-status {
+            color: var(--terminal-green);
+            font-size: 0.75rem;
+            margin: 12px 0 0;
+            text-align: center;
+        }
+
+        @media (max-width: 650px) {
+            .main-container {
+                width: 94%;
+                margin-top: 24px;
+                gap: 24px;
+            }
+
+            .logo-text {
+                font-size: 2rem;
+            }
+
+            .tour-box {
+                padding: 14px;
+            }
+
+            .countdown-value {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<script src="counter.js"></script>
+
+<header>
+    <div class="logo-text">MUPPETMASTERS</div>
+    <div class="tagline">RETRO. REWIND. RE-PLAY.</div>
+</header>
+
+<div class="main-container">
+    <nav>
+        <a href="index.htm">HOME</a>
+        <a href="news.htm">NEWS</a>
+        <a href="stories.htm">STORIES</a>
+        <a href="reviews.htm">REVIEWS</a>
+        <a href="community.htm">COMMUNITY</a>
+        <a href="about.htm">ABOUT US</a>
+    </nav>
+
+    <main>
+        <section class="tour-box" aria-labelledby="tour-title">
+            <h2 id="tour-title">BIKE TOUR 2026 // Spain // 13 Sep</h2>
+            <p class="tour-intro">Counting down the days to Bike Tour 2026! Bring it on!</p>
+
+            <div class="countdown" aria-live="polite">
+                <div class="countdown-unit"><span class="countdown-value" id="days">--</span><span class="countdown-label">DAYS</span></div>
+                <div class="countdown-unit"><span class="countdown-value" id="hours">--</span><span class="countdown-label">HOURS</span></div>
+                <div class="countdown-unit"><span class="countdown-value" id="minutes">--</span><span class="countdown-label">MINUTES</span></div>
+            </div>
+
+            <div class="course-frame">
+                <canvas id="course" width="640" height="360" aria-label="An 8-bit motorcycle looping around a Commodore 64 style race course"></canvas>
+            </div>
+            <div class="rider-list" aria-label="Rider colors">
+                <span class="rider-name" style="--rider-color: #ff3b30">Rob</span>
+                <span class="rider-name" style="--rider-color: #ffd60a">Steve</span>
+                <span class="rider-name" style="--rider-color: #30d158">RJB</span>
+                <span class="rider-name" style="--rider-color: #64d2ff">James</span>
+                <span class="rider-name" style="--rider-color: #bf5af2">Richard</span>
+                <span class="rider-name" style="--rider-color: #ff9f0a">Paul</span>
+            </div>
+            <p class="tour-status">WINNING BIKE: <span id="winner">--</span> &nbsp;|&nbsp; LEAD LAP <span id="lap">01</span></p>
+        </section>
+
+        <div class="footer-stats">
+            <div><span class="c-logo">C=</span> VISITORS: <span id="counter">Updating...</span></div>
+            <div>LAST UPDATE: 2026.08.18</div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const targetDate = new Date("2026-09-13T00:00:00");
+    const countdownIds = ["days", "hours", "minutes"];
+
+    function updateCountdown() {
+        const remaining = Math.max(0, targetDate - new Date());
+        const totalMinutes = Math.floor(remaining / 60000);
+        const values = [
+            Math.floor(totalMinutes / 1440),
+            Math.floor((totalMinutes % 1440) / 60),
+            totalMinutes % 60
+        ];
+
+        countdownIds.forEach((id, index) => {
+            document.getElementById(id).textContent = String(values[index]).padStart(2, "0");
+        });
+    }
+
+    const canvas = document.getElementById("course");
+    const context = canvas.getContext("2d");
+    const track = [
+        [105, 150], [125, 115], [180, 95], [255, 82], [330, 85],
+        [405, 75], [480, 88], [530, 125], [555, 185], [530, 235],
+        [490, 270], [420, 285], [330, 300], [245, 288], [175, 265],
+        [125, 225], [105, 180]
+    ];
+    const riders = [
+        { name: "Rob", color: "#ff3b30", speed: 0.015, distance: 0, nextChange: 0 },
+        { name: "Steve", color: "#ffd60a", speed: 0.0135, distance: 0.8, nextChange: 0 },
+        { name: "RJB", color: "#30d158", speed: 0.0165, distance: 1.6, nextChange: 0 },
+        { name: "James", color: "#64d2ff", speed: 0.012, distance: 2.4, nextChange: 0 },
+        { name: "Richard", color: "#bf5af2", speed: 0.015, distance: 3.2, nextChange: 0 },
+        { name: "Paul", color: "#ff9f0a", speed: 0.01425, distance: 4, nextChange: 0 }
+    ];
+    const laneOffsets = [-18, -11, -4, 4, 11, 18];
+    let previousTime = performance.now();
+    let leaderLap = 1;
+
+    function drawPixelCourse(currentTime) {
+        const frameTime = Number.isFinite(currentTime) ? currentTime : performance.now();
+        const elapsed = Math.min(40, frameTime - previousTime) / 16.67;
+        previousTime = frameTime;
+        riders.forEach(rider => {
+            if (frameTime >= rider.nextChange) {
+                rider.speed = 0.0105 + Math.random() * 0.009;
+                rider.nextChange = frameTime + 900 + Math.random() * 2100;
+            }
+            rider.distance += rider.speed * elapsed;
+        });
+
+        context.fillStyle = "#07111d";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.strokeStyle = "#123650";
+        context.lineWidth = 2;
+        for (let x = 0; x < canvas.width; x += 32) {
+            context.beginPath(); context.moveTo(x, 0); context.lineTo(x, canvas.height); context.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += 32) {
+            context.beginPath(); context.moveTo(0, y); context.lineTo(canvas.width, y); context.stroke();
+        }
+
+        context.lineJoin = "round";
+        context.lineCap = "round";
+        context.strokeStyle = "#ff00ff";
+        context.lineWidth = 68;
+        drawTrackLine();
+        context.strokeStyle = "#24243b";
+        context.lineWidth = 58;
+        drawTrackLine();
+        context.strokeStyle = "#33ff33";
+        context.lineWidth = 2;
+        context.setLineDash([8, 8]);
+        drawTrackLine();
+        context.setLineDash([]);
+
+        context.fillStyle = "#00f2ff";
+        context.font = "bold 16px Courier New";
+        context.fillText("C64 CIRCUIT", 22, 30);
+        context.fillStyle = "#ff00ff";
+        context.fillText("START", 86, 137);
+
+        riders.forEach((rider, index) => drawBike(rider, index));
+        updateWinner();
+        requestAnimationFrame(drawPixelCourse);
+    }
+
+    function drawTrackLine() {
+        context.beginPath();
+        context.moveTo(track[0][0], track[0][1]);
+        track.slice(1).forEach(point => context.lineTo(point[0], point[1]));
+        context.closePath();
+        context.stroke();
+    }
+
+    function drawBike(rider, riderIndex) {
+        const pointIndex = Math.floor(rider.distance % track.length);
+        const nextPoint = track[(pointIndex + 1) % track.length];
+        const point = track[pointIndex];
+        const fraction = rider.distance % 1;
+        const directionX = nextPoint[0] - point[0];
+        const directionY = nextPoint[1] - point[1];
+        const segmentLength = Math.hypot(directionX, directionY);
+        const offsetX = -directionY / segmentLength * laneOffsets[riderIndex];
+        const offsetY = directionX / segmentLength * laneOffsets[riderIndex];
+        const x = point[0] + directionX * fraction + offsetX;
+        const y = point[1] + directionY * fraction + offsetY;
+        const angle = Math.atan2(directionY, directionX);
+
+        context.save();
+        context.translate(Math.round(x), Math.round(y));
+        context.rotate(angle);
+        context.fillStyle = rider.color;
+        context.fillRect(-14, -3, 28, 6);
+        context.fillStyle = "#f7f7f7";
+        context.fillRect(-7, -8, 14, 9);
+        context.fillStyle = "#00f2ff";
+        context.fillRect(2, -13, 7, 6);
+        context.fillStyle = "#111";
+        context.fillRect(-13, 3, 7, 5);
+        context.fillRect(7, 3, 7, 5);
+        context.restore();
+    }
+
+    function updateWinner() {
+        const winner = riders.reduce((leadingRider, rider) => rider.distance > leadingRider.distance ? rider : leadingRider);
+        const winnerLap = Math.floor(winner.distance / track.length) + 1;
+        document.getElementById("winner").textContent = winner.name;
+        if (winnerLap !== leaderLap) {
+            leaderLap = winnerLap;
+            document.getElementById("lap").textContent = String(leaderLap).padStart(2, "0");
+        }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    requestAnimationFrame(drawPixelCourse);
+</script>
+</body>
+</html>
