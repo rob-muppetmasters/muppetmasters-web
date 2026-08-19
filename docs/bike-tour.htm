@@ -197,6 +197,7 @@
     const laneOffsets = [-18, -11, -4, 4, 11, 18];
     let previousTime = performance.now();
     let leaderLap = 1;
+    let animationFrameId = null;
 
     function drawPixelCourse(currentTime) {
         const frameTime = Number.isFinite(currentTime) ? currentTime : performance.now();
@@ -243,7 +244,7 @@
 
         riders.forEach((rider, index) => drawBike(rider, index));
         updateWinner();
-        requestAnimationFrame(drawPixelCourse);
+        animationFrameId = requestAnimationFrame(drawPixelCourse);
     }
 
     function drawTrackLine() {
@@ -293,9 +294,30 @@
         }
     }
 
+    function startAnimation() {
+        if (animationFrameId !== null) return;
+        previousTime = performance.now();
+        animationFrameId = requestAnimationFrame(drawPixelCourse);
+    }
+
+    function stopAnimation() {
+        if (animationFrameId === null) return;
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
     updateCountdown();
     setInterval(updateCountdown, 1000);
-    requestAnimationFrame(drawPixelCourse);
+    startAnimation();
+    window.addEventListener("pageshow", startAnimation);
+    window.addEventListener("pagehide", stopAnimation);
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            startAnimation();
+        } else {
+            stopAnimation();
+        }
+    });
 </script>
 </body>
 </html>
