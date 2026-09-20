@@ -130,8 +130,8 @@
 
     <main>
         <section class="tour-box" aria-labelledby="tour-title">
-            <h2 id="tour-title">BIKE TOUR 2026 // Spain // 13 Sep</h2>
-            <p class="tour-intro">Counting down the days to Bike Tour 2026! Bring it on!</p>
+            <h2 id="tour-title">BIKE TOUR 2027 // Italy // 18 Sep</h2>
+            <p class="tour-intro">Counting down the days to Bike Tour 2027 in Italy! Bring it on!</p>
 
             <div class="countdown" aria-live="polite">
                 <div class="countdown-unit"><span class="countdown-value" id="days">--</span><span class="countdown-label">DAYS</span></div>
@@ -140,7 +140,7 @@
             </div>
 
             <div class="course-frame">
-                <canvas id="course" width="640" height="360" aria-label="An 8-bit motorcycle looping around a Commodore 64 style race course"></canvas>
+                <canvas id="course" width="640" height="360" aria-label="An 8-bit motorcycle looping around an Italy-shaped Commodore 64 style race course"></canvas>
             </div>
             <div class="rider-list" aria-label="Rider colors">
                 <span class="rider-name" style="--rider-color: #ff3b30">Rob</span>
@@ -161,7 +161,7 @@
 </div>
 
 <script>
-    const targetDate = new Date("2026-09-13T00:00:00");
+    const targetDate = new Date("2027-09-18T00:00:00");
     const countdownIds = ["days", "hours", "minutes"];
 
     function updateCountdown() {
@@ -180,11 +180,15 @@
 
     const canvas = document.getElementById("course");
     const context = canvas.getContext("2d");
+    // An Italy-inspired boot silhouette: Alps at the top, Adriatic coast on the east,
+    // a pointed toe, and the Tyrrhenian coast returning up the west.
     const track = [
-        [105, 150], [125, 115], [180, 95], [255, 82], [330, 85],
-        [405, 75], [480, 88], [530, 125], [555, 185], [530, 235],
-        [490, 270], [420, 285], [330, 300], [245, 288], [175, 265],
-        [125, 225], [105, 180]
+        [190, 82], [235, 66], [285, 70], [330, 84], [375, 78],
+        [420, 92], [455, 118], [465, 150], [452, 178], [438, 205],
+        [430, 232], [442, 258], [465, 282], [448, 300], [415, 292],
+        [382, 278], [350, 296], [320, 320], [292, 304], [305, 276],
+        [325, 250], [337, 220], [330, 190], [315, 164], [290, 145],
+        [260, 132], [225, 125], [195, 108]
     ];
     const riders = [
         { name: "Rob", color: "#ff3b30", speed: 0.015, distance: 0, nextChange: 0 },
@@ -238,9 +242,9 @@
 
         context.fillStyle = "#00f2ff";
         context.font = "bold 16px Courier New";
-        context.fillText("C64 CIRCUIT", 22, 30);
+        context.fillText("ITALIA CIRCUIT", 22, 30);
         context.fillStyle = "#ff00ff";
-        context.fillText("START", 86, 137);
+        context.fillText("START", 177, 75);
 
         riders.forEach((rider, index) => drawBike(rider, index));
         updateWinner();
